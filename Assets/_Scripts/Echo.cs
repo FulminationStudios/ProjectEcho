@@ -17,9 +17,20 @@ public class Echo : NPC {
         base.Initialize();
     }
 
-    void DoEchoDespawn() {
-        if (transform.position == thePlayer.transform.position) {
-            Destroy(gameObject.transform.parent);
+    void Update() {
+        if (endOfPath) {
+            DespawnEcho();
         }
+    }
+
+    //void DoEchoDespawn() {
+    //    if (ExtraMath.IsEqual(transform.position,thePlayer.transform.position)) {
+    //        Destroy(gameObject.transform.parent.gameObject);
+    //    }
+    //}
+
+    void DespawnEcho() {
+        Debug.Log("Echo Despawned");
+        Destroy(gameObject.transform.parent.gameObject);
     }
 }

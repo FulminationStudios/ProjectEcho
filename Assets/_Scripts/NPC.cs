@@ -9,6 +9,7 @@ public class NPC : Entity {
     protected float curWaitTime;
     protected float waitTimer;
     protected bool doWait;
+    protected bool endOfPath;
 
     public enum movementMethods { travel, snap };
     public movementMethods movementMethod;
@@ -47,12 +48,14 @@ public class NPC : Entity {
         while (transform.position != point.position) {
             yield return null;
         }
+
+        pathIndex++;
+        endOfPath = pathIndex >= PathPoints.Count;
+        pathIndex = Mathf.Clamp(pathIndex, 0, PathPoints.Count - 1);
+
         if (point.waitTime > 0) {
             yield return new WaitForSeconds(point.waitTime);
         }
-
-        pathIndex++;
-        pathIndex = Mathf.Clamp(pathIndex, 0, PathPoints.Count - 1);
         yield return Movement(PathPoints[pathIndex]);
     }
 

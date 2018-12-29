@@ -15,4 +15,7 @@ public static class ExtraMath {
     public static bool IsEqual(float a, float b, float range = 0.002f) {
         return Mathf.Abs(a - b) < range ? true : false;
     }
+    public static bool IsEqual(Vector3 a, Vector3 b, float range = 0.002f) {
+        return Vector3.Distance(a, b) < range ? true : false;
+    }
 }
