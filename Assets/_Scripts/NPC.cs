@@ -44,6 +44,7 @@ public class NPC : Entity {
                 rb.MovePosition(Vector2.MoveTowards(transform.position, point.position, moveSpeed));
                 break;
         }
+        ChangeDirection(point.position - transform.position);
 
         while (transform.position != point.position) {
             yield return null;

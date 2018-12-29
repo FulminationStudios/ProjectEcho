@@ -14,6 +14,7 @@ public class Echo : NPC {
     protected override void Initialize() {
         thePlayer = FindObjectOfType<Player>();
         PathPoints = thePlayer.echoPathPoints;
+        transform.position = PathPoints[0].position;
         base.Initialize();
     }
 
