@@ -11,6 +11,8 @@ public class Entity : MonoBehaviour {
     public bool isMoving = false;
     public int maxHealth = 1;
     protected int curHealth;
+    protected float timeAlive;
+
     public enum EntityStates {
         dead,
         alive,
@@ -41,7 +43,12 @@ public class Entity : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         DoState();
+        DoTimeAlive();
 	}
+
+    protected void DoTimeAlive() {
+        timeAlive += Time.deltaTime;
+    }
 
     protected virtual void Initialize() {
         gameObject.name = entityName;
@@ -60,6 +67,14 @@ public class Entity : MonoBehaviour {
         } else if (curHealth <= 0) {
             ChangeState(EntityStates.dead);
         }
+    }
+
+    public float GetTimeAlive() {
+        return timeAlive;
+    }
+
+    public void ResetTimeAlive(){
+        timeAlive = 0;
     }
 
     public virtual void ChangeState(EntityStates state) {
@@ -157,6 +172,20 @@ public class Entity : MonoBehaviour {
         }
         return rend.sprite;
     }
+
+    protected string GetCurrentSprite() {
+        return rend.sprite.name;
+    }
+
+    protected virtual void Interact() {
+        Interactable thisObject = GetEffectorObject();
+        if (thisObject != null) {
+            if (thisObject.interactType == Interactable.InteractTypes.lever) {
+                thisObject.ChangeState(!thisObject.IsActive());
+            }
+        }
+    }
+
     protected virtual Interactable GetEffectorObject() {
         List<Interactable> validObjects = new List<Interactable>();
         Interactable returnObj = null;

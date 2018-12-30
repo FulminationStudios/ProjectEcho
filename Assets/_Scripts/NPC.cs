@@ -60,6 +60,11 @@ public class NPC : Entity {
         yield return Movement(PathPoints[pathIndex]);
     }
 
+    protected override void ChangeDirection(Vector2 direction) {
+        Debug.Log("DIRECTION: " + direction);
+        base.ChangeDirection(direction);
+    }
+
 }
 
 [System.Serializable]

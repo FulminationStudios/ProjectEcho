@@ -5,6 +5,7 @@ using UnityEngine;
 public class Echo : NPC {
 
     Player thePlayer;
+    int eventIndex = 0;
 
     void Start() {
         Initialize();
@@ -22,16 +23,23 @@ public class Echo : NPC {
         if (endOfPath) {
             DespawnEcho();
         }
+        EchoInteract();
+        DoTimeAlive();
     }
-
-    //void DoEchoDespawn() {
-    //    if (ExtraMath.IsEqual(transform.position,thePlayer.transform.position)) {
-    //        Destroy(gameObject.transform.parent.gameObject);
-    //    }
-    //}
 
     void DespawnEcho() {
         Debug.Log("Echo Despawned");
         Destroy(gameObject.transform.parent.gameObject);
     }
+
+    void EchoInteract() {
+        if (eventIndex < thePlayer.eventPoints.Count) {
+            if (timeAlive >= thePlayer.eventPoints[eventIndex]) {
+                base.Interact();
+                eventIndex++;
+                eventIndex = Mathf.Clamp(eventIndex, 0, thePlayer.eventPoints.Count);
+            }
+        }
+    }
+
 }

@@ -6,19 +6,25 @@ using UnityEngine.SceneManagement;
 public class Player : Entity {
 
     public List<PathPoint> echoPathPoints = new List<PathPoint>();
+    public List<float> eventPoints = new List<float>();
 
     public GameObject echoObject;
     private Echo echo;
 
 	void Start () {
-        base.Initialize();
+        Initialize();
 	}
-	
+
+    protected override void Initialize() {
+        base.Initialize();
+    }
+
     void Update () {
         base.DoState();
         Interact();
         SummonEcho();
         Movement();
+        DoTimeAlive();
     }
 
     void FixedUpdate() {
@@ -71,20 +77,16 @@ public class Player : Entity {
         }
     }
 
-    void Interact() {
+    protected override void Interact() {
         if (Input.GetKeyDown(KeyCode.E)) {
-            Interactable thisObject = base.GetEffectorObject();
-            if (thisObject != null) {
-                if (thisObject.interactType == Interactable.InteractTypes.lever) {
-                    thisObject.ChangeState(!thisObject.IsActive());
-                }
-            }
+            eventPoints.Add(timeAlive);
+            base.Interact();
         }
     }
 
     protected override void Die() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Application.OpenURL("https://res.cloudinary.com/teepublic/image/private/s--NLcTrgMZ--/t_Preview/b_rgb:191919,c_lpad,f_jpg,h_630,q_90,w_1200/v1466191557/production/designs/549487_1.jpg");
+        //Application.OpenURL("https://res.cloudinary.com/teepublic/image/private/s--NLcTrgMZ--/t_Preview/b_rgb:191919,c_lpad,f_jpg,h_630,q_90,w_1200/v1466191557/production/designs/549487_1.jpg");
     }
 }
 
