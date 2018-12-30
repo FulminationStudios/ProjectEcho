@@ -133,6 +133,22 @@ public class Entity : MonoBehaviour {
             sl.lockZ = direction.Contains("z");
         }
     }
+
+    protected virtual void DoSpriteLock(Vector2 direction) {
+        if (ExtraMath.IsEqual(direction.x,0)) {
+            if (ExtraMath.IsEqual(direction.y, 0)) {
+                LockSprites("xyz");
+            } else {
+                LockSprites("xz");
+            }
+        } else {
+            if (ExtraMath.IsEqual(direction.y, 0)) {
+                LockSprites("yz");
+            } else {
+                LockSprites("z");
+            }
+        }
+    }
     protected virtual void ChangeDirection(Vector2 direction) {
         XDirection thisX = XDirection.right;
         YDirection thisY = YDirection.down;

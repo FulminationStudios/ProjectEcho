@@ -48,20 +48,8 @@ public class Player : Entity {
         Vector2 directionX = Vector2.right * Input.GetAxisRaw("Horizontal");
         Vector2 directionY = Vector2.up * Input.GetAxisRaw("Vertical");
 
-        if (directionX == Vector2.zero) {
-            if (directionY == Vector2.zero) {
-                base.LockSprites("xyz");
-            } else  {
-                base.LockSprites("xz");
-            }
-        } else {
-            if (directionY == Vector2.zero) {
-                base.LockSprites("yz");
-            } else {
-                base.LockSprites("z");
-            }
-        }
         Vector2 direction = (directionX + directionY).normalized;
+        DoSpriteLock(direction);
         if (direction != Vector2.zero) {
             rb.MovePosition(rb.position + (direction * moveSpeed) * Time.deltaTime);
             base.ChangeDirection(direction);

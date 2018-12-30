@@ -45,7 +45,7 @@ public class NPC : Entity {
                 break;
         }
         ChangeDirection(point.localPosition);
-
+        DoSpriteLock(point.position - transform.position);
         while (transform.position != point.position) {
             yield return null;
         }
