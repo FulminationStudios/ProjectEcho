@@ -139,25 +139,35 @@ public class Entity : MonoBehaviour {
 
         if (direction.x > 0) { // Going Right
             thisX = XDirection.right;
-            effectorBox.localPosition = new Vector2(1, -0.5f);
         } else if (direction.x < 0) { // Going Left
             thisX = XDirection.left;
-            effectorBox.localPosition = new Vector2(-1, -0.5f);
         } else { // Not Moving Horizontally
             thisX = curXDirection;
         }
 
         if (direction.y > 0) { // Going Up
             thisY = YDirection.up;
-            effectorBox.transform.localPosition = new Vector2(0, 0.5f);
         } else if (direction.y < 0) { // Going Down
             thisY = YDirection.down;
-            effectorBox.transform.localPosition = new Vector2(0, -1.5f);
         } else { // Not Moving Vertically
             thisY = curYDirection;
         }
+        ChangeEffectorBoxLocation(direction);
 
         ChangeDirection(thisX, thisY);
+    }
+    protected virtual void ChangeEffectorBoxLocation(Vector2 direction) {
+        if (direction.x > 0) { // Going Right
+            effectorBox.localPosition = new Vector2(1, -0.5f);
+        } else if (direction.x < 0) { // Going Left
+            effectorBox.localPosition = new Vector2(-1, -0.5f);
+        }
+
+        if (direction.y > 0) { // Going Up
+            effectorBox.transform.localPosition = new Vector2(0, 0.5f);
+        } else if (direction.y < 0) { // Going Down
+            effectorBox.transform.localPosition = new Vector2(0, -1.5f);
+        }
     }
     protected virtual void ChangeDirection(XDirection x, YDirection y) {
         curXDirection = x;

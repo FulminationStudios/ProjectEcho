@@ -44,7 +44,7 @@ public class NPC : Entity {
                 rb.MovePosition(Vector2.MoveTowards(transform.position, point.position, moveSpeed));
                 break;
         }
-        ChangeDirection(point.position - transform.position);
+        ChangeDirection(point.localPosition);
 
         while (transform.position != point.position) {
             yield return null;
@@ -70,10 +70,22 @@ public class NPC : Entity {
 [System.Serializable]
 public class PathPoint {
     public Vector3 position;
+    public Vector3 localPosition;
     public float waitTime;
 
-    public PathPoint(Vector2 position_, float waitTime_ = 0f) {
+    public PathPoint(Vector2 position_, Vector2 localPosition_, float waitTime_ = 0f) {
         position = position_;
+        localPosition = localPosition_;
         waitTime = waitTime_;
+    }
+}
+
+[System.Serializable]
+public class EventPoint {
+    public float timeOfEvent;
+    public bool interactSuccessful;
+    public EventPoint(float time, bool wasSuccessful) {
+        timeOfEvent = time;
+        interactSuccessful = wasSuccessful;
     }
 }

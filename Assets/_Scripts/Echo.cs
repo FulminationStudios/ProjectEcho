@@ -29,13 +29,16 @@ public class Echo : NPC {
 
     void DespawnEcho() {
         Debug.Log("Echo Despawned");
+        thePlayer.numEchoesActive--;
         Destroy(gameObject.transform.parent.gameObject);
     }
 
     void EchoInteract() {
         if (eventIndex < thePlayer.eventPoints.Count) {
-            if (timeAlive >= thePlayer.eventPoints[eventIndex]) {
-                base.Interact();
+            if (timeAlive >= thePlayer.eventPoints[eventIndex].timeOfEvent) {
+                if (thePlayer.eventPoints[eventIndex].interactSuccessful) {
+                    Interact();
+                }
                 eventIndex++;
                 eventIndex = Mathf.Clamp(eventIndex, 0, thePlayer.eventPoints.Count);
             }

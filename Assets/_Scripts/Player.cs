@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 public class Player : Entity {
 
     public List<PathPoint> echoPathPoints = new List<PathPoint>();
-    public List<float> eventPoints = new List<float>();
+    public List<EventPoint> eventPoints = new List<EventPoint>();
 
     public GameObject echoObject;
     private Echo echo;
+    public int numEchoesActive;
 
 	void Start () {
         Initialize();
@@ -36,8 +37,9 @@ public class Player : Entity {
 
     void SummonEcho() {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            if (echoPathPoints.Count > 0) {
+            if (echoPathPoints.Count > 0 && numEchoesActive < GameData.maxEchoes) {
                 echo = Instantiate(echoObject, echoPathPoints[0].position, Quaternion.identity).GetComponent<Echo>();
+                numEchoesActive++;
             }
         }
     }
@@ -73,13 +75,13 @@ public class Player : Entity {
         if (movementVector == Vector2.zero && echoPathPoints.Count > 0) {
             echoPathPoints[echoPathPoints.Count - 1].waitTime += Time.deltaTime;
         } else {
-            echoPathPoints.Add(new PathPoint(globalPosition));
+            echoPathPoints.Add(new PathPoint(globalPosition, movementVector));
         }
     }
 
     protected override void Interact() {
         if (Input.GetKeyDown(KeyCode.E)) {
-            eventPoints.Add(timeAlive);
+            eventPoints.Add(new EventPoint(timeAlive,GetEffectorObject() != null));
             base.Interact();
         }
     }
