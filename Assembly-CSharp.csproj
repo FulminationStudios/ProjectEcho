@@ -67,6 +67,7 @@
     <Compile Include="Assets\_Scripts\CameraFollow.cs" />
     <Compile Include="Assets\_Scripts\Door.cs" />
     <Compile Include="Assets\_Scripts\Echo.cs" />
+    <Compile Include="Assets\_Scripts\EchoJar.cs" />
     <Compile Include="Assets\_Scripts\EchoMist.cs" />
     <Compile Include="Assets\_Scripts\Entity.cs" />
     <Compile Include="Assets\_Scripts\Extendor.cs" />

@@ -286,3 +286,4 @@ MonoBehaviour:
   echoPathPoints: []
   eventPoints: []
   echoObject: {fileID: 0}
+  numEchoesActive: 0
