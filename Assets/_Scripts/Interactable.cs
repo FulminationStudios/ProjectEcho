@@ -7,7 +7,8 @@ public class Interactable : MonoBehaviour {
     public enum InteractTypes
     {
         button,
-        lever
+        lever,
+        jar
     }
     public InteractTypes interactType;
 
