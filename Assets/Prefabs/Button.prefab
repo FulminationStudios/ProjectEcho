@@ -155,3 +155,6 @@ MonoBehaviour:
   activatableObjects: []
   onSprite: {fileID: 21300012, guid: d4a035b3f67724669a7e4922de291aed, type: 3}
   offSprite: {fileID: 21300010, guid: d4a035b3f67724669a7e4922de291aed, type: 3}
+  baseParent: {fileID: 0}
+  rb: {fileID: 0}
+  baseType: 0

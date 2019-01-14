@@ -8,7 +8,7 @@ public class Interactable : MonoBehaviour {
     {
         button,
         lever,
-        jar
+        holdable
     }
     public InteractTypes interactType;
 
@@ -21,10 +21,16 @@ public class Interactable : MonoBehaviour {
     public List<Activatable> activatableObjects = new List<Activatable>();
     protected SpriteRenderer rend;
     public Sprite onSprite, offSprite;
+    [HideInInspector]
+    public Transform baseParent;
+    [HideInInspector]
+    public Rigidbody2D rb;
+    [HideInInspector]
+    public RigidbodyType2D baseType;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Initialize();
 	}
 	
@@ -39,6 +45,7 @@ public class Interactable : MonoBehaviour {
 
     protected virtual void Initialize() {
         rend = GetComponent<SpriteRenderer>();
+        baseParent = transform.parent;
         ChangeState(curState);
     }
     public virtual bool IsActive() {

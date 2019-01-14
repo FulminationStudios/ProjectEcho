@@ -12,6 +12,7 @@ public class Entity : MonoBehaviour {
     public int maxHealth = 1;
     protected int curHealth;
     protected float timeAlive;
+    protected Interactable carryingItem;
 
     public enum EntityStates {
         dead,
@@ -204,12 +205,58 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void Interact() {
-        Interactable thisObject = GetEffectorObject();
-        if (thisObject != null) {
-            if (thisObject.interactType == Interactable.InteractTypes.lever) {
-                thisObject.ChangeState(!thisObject.IsActive());
+        if (carryingItem != null) {
+            DropItem();                                                                           
+        } else {
+            Interactable thisObject = GetEffectorObject();
+            if (thisObject != null) {
+                switch (thisObject.interactType) {
+                    case Interactable.InteractTypes.lever:
+                        thisObject.ChangeState(!thisObject.IsActive());
+                        break;
+                    case Interactable.InteractTypes.holdable:
+                        PickUpItem(thisObject);
+                        break;
+                }
             }
         }
+    }
+
+    protected virtual void PickUpItem(Interactable item) {
+        carryingItem = item;
+        carryingItem.ChangeState(Interactable.States.on);
+        carryingItem.transform.parent = transform;
+        carryingItem.transform.localPosition = Vector3.up;
+        SpriteLock[] itemSprites = carryingItem.GetComponentsInChildren<SpriteLock>();
+        foreach (SpriteLock sprite in itemSprites) {
+            sprites.Add(sprite);
+        }
+        foreach(Collider2D thisCollider in carryingItem.GetComponents<Collider2D>()) {
+            thisCollider.enabled = false;
+        }
+        if (carryingItem.rb != null) {
+            carryingItem.rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+    }
+    protected virtual void DropItem() {
+        carryingItem.ChangeState(Interactable.States.off);
+        carryingItem.transform.position = effectorBox.transform.position;
+        SpriteLock[] itemSprites = carryingItem.GetComponentsInChildren<SpriteLock>();
+        foreach (SpriteLock sprite in itemSprites) {
+            sprites.Remove(sprite);
+        }
+        carryingItem.transform.parent = carryingItem.baseParent;
+        foreach (Collider2D thisCollider in carryingItem.GetComponents<Collider2D>()) {
+            thisCollider.enabled = true;
+        }
+        if (carryingItem.rb != null) {
+            carryingItem.rb.bodyType = carryingItem.baseType;
+        }
+        carryingItem = null;
+
+    }
+    protected virtual void CarryItem() {
+
     }
 
     protected virtual Interactable GetEffectorObject() {
